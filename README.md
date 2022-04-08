@@ -18,9 +18,9 @@ Take for example a simple JS application with a MongoDB database
 * ConfigMap -> contains the external configuration of your applicatgion such as URL of the database or other utilized services of the app. It is connected to the pod to receive the data the ConfigMap contains. If you change the name of the endpoint of the service you can just adjust the ConfigMap. 
 * Secret -> Usernames and passwords are also part of the database but ConfigMap is not secure even though ConfigMap is an External Service so they instead go into Secret. Secret will encode the data using base64. This is not enabled by default but needs to be used if user login and credentials are necessary.
 
-Another issue with Kubernetes is that the database is stored within the Pod. This can be a problem because if the pod shuts down the database data is deleted. Thus Volumes are used. Volumes are used to store the database off the K8 cluster on an remote server or local storage. K8s cluster does not manage data persistence instead you must backup the data appropriately on a external source.
+Another issue with Kubernetes is that the database is stored within the Pod. This can be a problem because if the pod shuts down the database data is deleted. Thus, **Volumes** are used. Volumes are used to store the database off the K8 cluster on an remote server or local storage. K8s cluster does not manage data persistence instead you must backup the data appropriately on a external source.
 
-In practice Pods are not created by users but rather you create Deployments where they allow you to create a blue print for the Pods that will contain your application. However, the database is not replicated with the Deployment due to the database having a state so to invoid inconsistencies another component called StatefulSet. 
+In practice Pods are not created by users but rather you create **Deployments** where they allow you to create a blue print for the Pods that will contain your application. However, the database is not replicated with the Deployment due to the database having a state so to invoid inconsistencies another component called **StatefulSet**. 
 * Deployment for state**less** apps
 * StatefulSet for state**full** apps and databases
 
@@ -33,3 +33,4 @@ In practice Pods are not created by users but rather you create Deployments wher
 ## Sources
 1. [Youtube Video 1 by TechWorld with Nana] (https://www.youtube.com/watch?v=X48VuDVv0do)
 2. [Youtube Video 2 by TechWorld with Nana] (https://www.youtube.com/watch?v=s_o8dwzRlu4)
+3. [Kubernetes website] (https://kubernetes.io/docs/home/)
