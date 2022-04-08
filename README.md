@@ -8,8 +8,7 @@ An open source container tool developed by Google that helps you manage applicat
 * Backup and Restoration (restore easily to the latest state)
 
 ## Basic Kubernetes Components
-Take for example a simple JS application with a MongoDB database
-* Node -> A simple server that holds the Pod
+* Node -> A simple server that holds the Pod (virtual or physical machine)
 * Pod -> Abstraction over a container and the smallest possible unit in K8. Can be a database or the JS app just runs a single application in general. Each pod has an IP address where each pod can interact with each other. If a pod application terminates the IP address with be re-created on the restart. Thus, if you want to communicate with the database via IP address you would have to readjust your code.
 * Service -> To avoid the change in the IP address upon Pod re-creation a permanent IP address or a service is attached to each Pod. Additionally, a Service is used as a load balancer because a duplicate apps are created on multiple pods in case one Pod is busy or a Pod crashes. So the Service will direct the user to the appropriate Pod based on current app traffic.
     * External Service -> makes your application accessible to the public through the browser (typically a string of numbers or the node IP address with the port number for example https://124.89.101.2:8080)
@@ -28,7 +27,34 @@ In practice Pods are not created by users but rather you create **Deployments** 
 
 ## Kubernetes Architecture
 
+In general there is at least one master node (or control plane node) and several worker nodes where your applications runs. The master node runs,
+* API (application programming interface) Server or the entrypoint to the K8 cluster
+* Controller Manager which keeps of what is running on the cluster
+* Scheduler that determines what worker node should be used and when a Pod neds to be replaced
+* ETCD storage or the K8 backup store for the cluster that contains all the configuration data and the current state of the K8 cluster. The entire cluster state can be recovered through a ETCD snapshot.
+
+How the master and worker nodes communicate is through the **Virtual Network**. Due to the significant number of processes that worker nodes complete they tend to have higher workloads and thus require greater resources than master nodes. However, losing a master node is more damaging than a worker node because without a master node the cluster will not run and the application will not be accessible to the user. Where if a worker nodes crashes the user will have access to the application via another worker node. Therefore, in practice the master node is backed up and in operation there is at least 2 master nodes.
+
 ## Install Kubernetes on MacOs
+I used [Homebrew](https://brew.sh/) to install kubectl which is the command-line tool for K8. The following lines allowed me to successfully install kubectl on my mac.
+```linux
+brew install kubectl
+```
+then to test that installation was successfull
+```linux
+kubectl version --client
+```
+I also installed Docker on my mac via the [Docker Website](https://www.docker.com/)
+
+I installed minikube on my Mac also using Homebrew using the following line,
+```linux
+brew install minikube
+```
+
+I was then able to start a cluster by running the following line,
+```linux
+minikube start
+```
 
 ## Sources
 1. [Youtube Video 1 by TechWorld with Nana] (https://www.youtube.com/watch?v=X48VuDVv0do)
